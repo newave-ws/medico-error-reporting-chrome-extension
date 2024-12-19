@@ -6,10 +6,16 @@ class ExtensionUpdater {
 
     async checkForUpdates() {
         try {
-            const response = await fetch(`https://api.github.com/repos/newave-ws/medico-error-reporting-chrome-extension`);
+            const response = await fetch(`https://api.github.com/repos/${this.githubRepo}/releases/latest`);
             const data = await response.json();
             
             if (!response.ok) {
+                if (response.status === 404) {
+                    return {
+                        available: false,
+                        message: 'No releases found in repository'
+                    };
+                }
                 throw new Error(`GitHub API error: ${data.message}`);
             }
 
@@ -20,12 +26,15 @@ class ExtensionUpdater {
                 return {
                     available: true,
                     version: latestVersion,
-                    url: data.assets[0]?.browser_download_url,
+                    url: data.html_url,
                     notes: data.body
                 };
             }
             
-            return { available: false };
+            return { 
+                available: false,
+                message: 'You have the latest version'
+            };
         } catch (error) {
             console.error('Update check failed:', error);
             throw error;
@@ -64,10 +73,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <small>${update.notes || ''}</small>
                 `;
             } else {
-                updateStatus.textContent = 'You have the latest version.';
+                updateStatus.textContent = update.message || 'You have the latest version.';
             }
         } catch (error) {
             updateStatus.textContent = `Update check failed: ${error.message}`;
+            console.error('Update check error:', error);
         }
     }
 
