@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Screenshot Notes</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="loader-overlay">
+        <div class="loader"></div>
+    </div>
+    <div class="header">
+        <h2>Medico Error Reporting</h2>
+        <label class="switch">
+            <input type="checkbox" id="extensionToggle" checked>
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="main">Screenshot</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </div>
+
+    <div id="main" class="tab-content active">
+      <h3>Screenshot Notes</h3>
+      <div class="button-group">
+        <button id="capturePageBtn">Capture Page</button>
+        <button id="captureConsoleBtn">Capture Console</button>
+      </div>
+      <div id="screenshotContainer">
+        <img id="preview" />
+        <textarea id="notes" 
+                  placeholder="Add your notes here..." 
+                  dir="auto" 
+                  class="rtl-support"></textarea>
+        <button id="sendBtn">Send to API</button>
+      </div>
+      <div id="status"></div>
+    </div>
+
+    <div id="settings" class="tab-content">
+      <h3>Settings</h3>
+      <form id="settingsForm">
+        <div class="form-group">
+          <label for="apiUrl">API URL:</label>
+          <input type="url" id="apiUrl" required placeholder="https://api.example.com">
+        </div>
+        <div class="form-group">
+          <label for="apiToken">API Token:</label>
+          <input type="password" id="apiToken" required placeholder="Your API token">
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" required placeholder="Your username">
+        </div>
+        <div class="form-group">
+          <h4>Extension Updates</h4>
+          <button type="button" id="checkUpdateBtn" class="update-btn">Check for Updates</button>
+          <div id="updateStatus" class="update-status"></div>
+        </div>
+        <button type="submit" class="save-btn">Save Settings</button>
+      </form>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+  <script src="update.js"></script>
+  <div id="imagePopup" class="image-popup">
+    <div class="popup-content">
+        <div class="popup-toolbar">
+            <input type="color" id="colorPicker" value="#ff0000" title="Select Color">
+            <button id="undoBtn" class="tool-btn" title="Undo Last Line">Undo</button>
+            <button id="clearBtn" class="tool-btn" title="Clear All">Clear</button>
+        </div>
+        <span class="close-popup">&times;</span>
+        <canvas id="drawingCanvas"></canvas>
+    </div>
+  </div>
+</body>
+</html> 

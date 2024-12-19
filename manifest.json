@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Medico Error Reporting",
+  "version": "1.0",
+  "description": "Take screenshots and add notes and let you send them to the Medico API",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs",
+    "storage",
+    "downloads",
+    "debugger",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://api.ipify.org/",
+    "https://api.github.com/"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["*.js.map"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+} 
