@@ -1,12 +1,12 @@
 class ExtensionUpdater {
     constructor() {
-        this.githubRepo = 'your-username/your-repo';
+        this.githubRepo = 'newave-ws/medico-error-reporting-chrome-extension';
         this.currentVersion = chrome.runtime.getManifest().version;
     }
 
     async checkForUpdates() {
         try {
-            const response = await fetch(`https://github.com/newave-ws/medico-error-reporting-chrome-extension/upload/main`);
+            const response = await fetch(`https://api.github.com/repos/newave-ws/medico-error-reporting-chrome-extension`);
             const data = await response.json();
             
             if (!response.ok) {
