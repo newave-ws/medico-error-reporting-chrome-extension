@@ -7,6 +7,7 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
     }
     console.error('Error:', msg, 'at', url, 'line:', lineNo);
     return false;
+    // small change for update test
 };
 
 document.addEventListener('DOMContentLoaded', function() {
