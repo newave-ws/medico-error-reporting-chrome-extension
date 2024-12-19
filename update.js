@@ -6,28 +6,41 @@ class ExtensionUpdater {
 
     async checkForUpdates() {
         try {
-            const response = await fetch(`https://api.github.com/repos/${this.githubRepo}/releases/latest`);
-            const data = await response.json();
+            // First check if repository exists
+            const repoResponse = await fetch(`https://api.github.com/repos/${this.githubRepo}`);
+            const repoData = await repoResponse.json();
             
-            if (!response.ok) {
-                if (response.status === 404) {
-                    return {
-                        available: false,
-                        message: 'No releases found in repository'
-                    };
-                }
-                throw new Error(`GitHub API error: ${data.message}`);
+            if (!repoResponse.ok) {
+                throw new Error(`GitHub API error: ${repoData.message}`);
             }
 
-            const latestVersion = data.tag_name.replace('v', '');
+            // Then fetch the latest release
+            const releaseResponse = await fetch(`https://api.github.com/repos/${this.githubRepo}/releases`);
+            const releases = await releaseResponse.json();
+            
+            if (!releaseResponse.ok) {
+                throw new Error(`GitHub API error: ${releases.message}`);
+            }
+
+            // Check if there are any releases
+            if (!releases || releases.length === 0) {
+                return {
+                    available: false,
+                    message: 'No releases found in repository'
+                };
+            }
+
+            // Get the latest release
+            const latestRelease = releases[0];
+            const latestVersion = latestRelease.tag_name.replace('v', '');
             const updateAvailable = this.compareVersions(latestVersion, this.currentVersion) > 0;
             
             if (updateAvailable) {
                 return {
                     available: true,
                     version: latestVersion,
-                    url: data.html_url,
-                    notes: data.body
+                    url: latestRelease.html_url,
+                    notes: latestRelease.body
                 };
             }
             
