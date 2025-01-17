@@ -9,7 +9,7 @@ class ExtensionUpdater {
             // First check if repository exists
             const repoResponse = await fetch(`https://api.github.com/repos/${this.githubRepo}`);
             const repoData = await repoResponse.json();
-            
+
             if (!repoResponse.ok) {
                 throw new Error(`GitHub API error: ${repoData.message}`);
             }
@@ -97,4 +97,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (checkUpdateBtn) {
         checkUpdateBtn.addEventListener('click', checkForUpdates);
     }
+}); 
+
+document.querySelector('.my-button').addEventListener('click', function() {
+    const loader = document.querySelector('.loader');
+    loader.style.display = 'block'; // Show loader
+    // Simulate an async operation
+    setTimeout(() => {
+        loader.style.display = 'none'; // Hide loader after operation
+    }, 2000); // Adjust time as needed
 }); 
